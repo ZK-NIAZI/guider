@@ -21,9 +21,15 @@
     body {
       font-family: 'Roboto', sans-serif;
       font-size: var(--font-base);
-      background: url('mosque-background.jpg') center/cover no-repeat;
       color: var(--cream);
       overflow: hidden;
+      /* Fade-in background */
+      background: url('https://zaahara.com/cdn/shop/articles/533598.jpg?v=1493280433') center/cover no-repeat fixed;
+      animation: bgFade 2s ease-in-out forwards;
+    }
+    @keyframes bgFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     /* Splash Screen */
     .splash {
@@ -85,17 +91,18 @@
       background-repeat: no-repeat;
       background-position: right 1rem center;
     }
-    button#getVerse {
+    button#getVerse, button#nextBtn {
       background-color: var(--cream);
       color: var(--dark-green);
-      border:none; border-radius:0.5rem;
-      padding:0.75rem 2rem;
-      font-size:1rem;
-      cursor:pointer;
+      border: none; border-radius: 0.5rem;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
       transition: transform 0.2s;
-      margin-bottom:1.5rem;
+      margin: 1rem auto 0;
+      display: block;
     }
-    button#getVerse:hover { transform: scale(1.05); }
+    button#getVerse:hover, button#nextBtn:hover { transform: scale(1.05); }
     .verses { display: none; flex-direction: column; gap: 1.5rem; }
     .verse-block {
       background: rgba(0,0,0,0.3);
@@ -110,9 +117,7 @@
       padding: 0.25rem 0.5rem; border-radius: 0.5rem;
       font-size: 0.875rem; font-weight: 700;
     }
-    .verse-text {
-      font-size: 1rem; line-height: 1.5; margin-top: 0.5rem;
-    }
+    .verse-text { font-size: 1rem; line-height: 1.5; margin-top: 0.5rem; }
     .play-btn {
       position: absolute; top: 0.5rem; right: 1rem;
       background: none; border: none; cursor: pointer; font-size: 1.25rem;
@@ -127,6 +132,8 @@
       50% { transform: translateY(-20px) translateX(10px); }
       100% { transform: translateY(0) translateX(0); }
     }
+    /* Next Page */
+    .page2 { display: none; position: relative; min-height: 100vh; text-align: center; padding-top: 5rem; }
   </style>
 </head>
 <body>
@@ -157,16 +164,38 @@
       </select>
       <button id="getVerse">Get Verse</button>
       <div class="verses animate__animated" id="versesContainer" aria-live="polite"></div>
+      <button id="nextBtn">Next</button>
     </div>
   </div>
+  <!-- Next Page Content -->
+  <div class="page2 animate__animated" id="page2">
+    <header class="header">Welcome to Page 2</header>
+    <p style="margin-top:2rem; font-size:1.25rem;">Here’s your next section—add content as needed!</p>
+  </div>
   <script>
-    // Hide splash and show main after animation
+    // Function to handle transition to page2
+    function transitionToPage2() {
+      const main = document.querySelector('.main-content');
+      const page2 = document.getElementById('page2');
+      main.classList.add('animate__animated', 'animate__fadeOutLeft');
+      setTimeout(() => {
+        main.style.display = 'none';
+        page2.style.display = 'block';
+        page2.classList.add('animate__animated', 'animate__fadeInRight');
+      }, 800);
+    }
+
+    // Splash -> Main and auto-next
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.querySelector('.splash').style.display = 'none';
         document.querySelector('.main-content').style.display = 'block';
+        // Automatically proceed to next page after a brief pause
+        setTimeout(transitionToPage2, 1000);
       }, 3000);
     });
+
+    // Verse & Speech
     const mappings = {
       sad: [{ar:'إِنَّ مَعَ الْعُسْرِ يُسْرًا',ur:'بے شک ہر تنگی کے ساتھ آسانی ہے',en:'Indeed, with hardship [will be] ease.'}],
       depressed: [{ar:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا',ur:'تو بے شک تنگی کے ساتھ آسانی ہے',en:'So verily, with the hardship, there is relief.'}],
@@ -210,6 +239,9 @@
       container.style.display = 'flex';
       container.className = 'verses animate__animated animate__fadeIn';
     });
+    
+    // Next Button click event now uses transition function
+    document.getElementById('nextBtn').addEventListener('click', transitionToPage2);
   </script>
 </body>
 </html>
