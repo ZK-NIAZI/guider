@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guider Mood to Verse</title>
+  <title>Qaider Mood to Verse</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Jomhuria&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Jomhuria&family=Roboto:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
   <!-- Animate.css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
       --dark-green: #013220;
@@ -15,86 +17,156 @@
       --cream: #f5f1e8;
       --font-base: 1rem;
     }
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Roboto', sans-serif;
       font-size: var(--font-base);
-      background: linear-gradient(135deg, var(--dark-green), var(--darker-green));
+      background: url('mosque-background.jpg') center/cover no-repeat;
       color: var(--cream);
-      display: flex; flex-direction: column; align-items:center; min-height:100vh;
+      overflow: hidden;
     }
+    /* Splash Screen */
+    .splash {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--dark-green);
+      z-index: 100;
+      flex-direction: column;
+    }
+    .splash h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4rem;
+      color: var(--cream);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      animation: fadeInOut 4s ease-in-out forwards;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: scale(0.8); }
+      20% { opacity: 1; transform: scale(1); }
+      80% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.2); }
+    }
+    /* Main Content */
+    .main-content { display: none; position: relative; min-height: 100vh; }
     header.header {
-      width:100%; padding:1rem; text-align:center;
-      font-size:2rem; font-weight:700; letter-spacing:0.2rem;
-      background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      margin-bottom:2rem;
+      width: 100%; padding: 1rem; text-align: center;
+      font-size: 2.5rem; font-family: 'Great Vibes', cursive;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      color: var(--cream);
     }
     .container {
-      width: 100%; max-width: 500px;
-      background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
-      border:1px solid rgba(255,255,255,0.2); border-radius:1rem;
-      padding:2rem; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      width: 90%; max-width: 500px;
+      margin: 2rem auto;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
-    h1 { margin-bottom:1.5rem; font-size:1.75rem; }
-    label { display:block; margin-bottom:0.5rem; font-weight:700; }
+    .container h1 {
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
+    }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 700; }
     select {
-      width:100%; padding:0.75rem; border:none; border-radius:0.5rem;
-      font-size:1rem; margin-bottom:1rem;
-    }
-    button#playVerse, button#playVerse:hover {
-      background: none; border:none; cursor:pointer;
+      width: 100%; padding: 0.75rem;
+      border: 2px solid var(--cream);
+      border-radius: 2rem;
+      background: rgba(255,255,255,0.2);
+      font-size: 1rem;
+      font-family: 'Great Vibes', cursive;
+      color: var(--dark-green);
+      margin-bottom: 1rem;
+      appearance: none;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+ICAgIDxwb2x5bGluZSBwb2ludHM9IjAsMCA2LDggMTIsMCIgc3Ryb2tlPSIjMDAzMDAzIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48L3N2Zz4=");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
     }
     button#getVerse {
-      background-color: var(--cream); color: var(--dark-green);
-      border:none; border-radius:0.5rem; padding:0.75rem 2rem;
-      font-size:1rem; cursor:pointer; transition: transform 0.2s;
+      background-color: var(--cream);
+      color: var(--dark-green);
+      border:none; border-radius:0.5rem;
+      padding:0.75rem 2rem;
+      font-size:1rem;
+      cursor:pointer;
+      transition: transform 0.2s;
       margin-bottom:1.5rem;
     }
-    button#getVerse:hover { transform:scale(1.05); }
-    .verses { display:none; flex-direction:column; gap:1.5rem; }
+    button#getVerse:hover { transform: scale(1.05); }
+    .verses { display: none; flex-direction: column; gap: 1.5rem; }
     .verse-block {
-      background: rgba(255,255,255,0.05); border-radius:0.75rem;
-      padding:1rem; position: relative;
+      background: rgba(0,0,0,0.3);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      position: relative;
     }
     .verse-block::before {
       content: attr(data-lang-label);
-      position:absolute; top:-0.75rem; left:1rem;
+      position: absolute; top: -0.75rem; left: 1rem;
       background: var(--cream); color: var(--dark-green);
-      padding:0.25rem 0.5rem; border-radius:0.5rem;
-      font-size:0.875rem; font-weight:700;
+      padding: 0.25rem 0.5rem; border-radius: 0.5rem;
+      font-size: 0.875rem; font-weight: 700;
     }
     .verse-text {
-      font-size:1rem; line-height:1.5; margin-top:0.5rem;
+      font-size: 1rem; line-height: 1.5; margin-top: 0.5rem;
     }
     .play-btn {
-      position:absolute; top:0.75rem; right:1rem;
-      background:none; border:none; cursor:pointer; font-size:1.25rem;
+      position: absolute; top: 0.5rem; right: 1rem;
+      background: none; border: none; cursor: pointer; font-size: 1.25rem;
+      color: var(--cream);
     }
-    @media (min-width:600px) {
-      h1 { font-size:2rem; }
-      .verse-text { font-size:1.125rem; }
+    /* Floating Icons */
+    .icon { position: absolute; color: var(--cream); opacity: 0.7; font-size: 1.5rem;
+      animation: floatAnim 6s ease-in-out infinite;
+    }
+    @keyframes floatAnim {
+      0% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-20px) translateX(10px); }
+      100% { transform: translateY(0) translateX(0); }
     }
   </style>
 </head>
 <body>
-  <header class="header">GUIDER</header>
-  <div class="container" role="main">
-    <h1>Discover Your Verse</h1>
-    <label for="mood">Select Your Mood:</label>
-    <select id="mood" aria-label="Select your mood">
-      <option value="">--Choose Mood--</option>
-      <option value="sad">Sad</option>
-      <option value="depressed">Depressed</option>
-      <option value="anxious">Anxious</option>
-      <option value="angry">Angry</option>
-      <option value="stressed">Stressed</option>
-      <option value="hopeful">Hopeful</option>
-    </select>
-    <button id="getVerse">Get Verse</button>
-    <div class="verses animate__animated" id="versesContainer" aria-live="polite"></div>
+  <!-- Splash Page -->
+  <div class="splash">
+    <h1>بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
+  </div>
+  <!-- Main UI -->
+  <div class="main-content">
+    <header class="header">QAIDER</header>
+    <!-- Floating Icons -->
+    <i class="fas fa-moon icon" style="left: 10%; top: 20%; animation-delay: 0s;"></i>
+    <i class="fas fa-star icon" style="left: 80%; top: 30%; animation-delay: 2s;"></i>
+    <i class="fas fa-mosque icon" style="left: 50%; top: 10%; animation-delay: 4s;"></i>
+    <i class="fas fa-star icon" style="left: 20%; top: 60%; animation-delay: 1s;"></i>
+    <i class="fas fa-moon icon" style="left: 70%; top: 70%; animation-delay: 3s;"></i>
+    <div class="container" role="main">
+      <h1>Discover Your Verse</h1>
+      <label for="mood">Select Your Mood:</label>
+      <select id="mood" aria-label="Select your mood">
+        <option value="">--Choose Mood--</option>
+        <option value="sad">Sad</option>
+        <option value="depressed">Depressed</option>
+        <option value="anxious">Anxious</option>
+        <option value="angry">Angry</option>
+        <option value="stressed">Stressed</option>
+        <option value="hopeful">Hopeful</option>
+      </select>
+      <button id="getVerse">Get Verse</button>
+      <div class="verses animate__animated" id="versesContainer" aria-live="polite"></div>
+    </div>
   </div>
   <script>
+    // Hide splash and show main after animation
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.querySelector('.splash').style.display = 'none';
+        document.querySelector('.main-content').style.display = 'block';
+      }, 3000);
+    });
     const mappings = {
       sad: [{ar:'إِنَّ مَعَ الْعُسْرِ يُسْرًا',ur:'بے شک ہر تنگی کے ساتھ آسانی ہے',en:'Indeed, with hardship [will be] ease.'}],
       depressed: [{ar:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا',ur:'تو بے شک تنگی کے ساتھ آسانی ہے',en:'So verily, with the hardship, there is relief.'}],
@@ -108,35 +180,35 @@
     getVerseBtn.addEventListener('click', () => {
       const mood = document.getElementById('mood').value;
       container.innerHTML = '';
-      if(!mood || !mappings[mood]){
-        container.textContent='Please select a valid mood.';
-        container.className='verses animate__animated animate__fadeIn';
+      if (!mood || !mappings[mood]) {
+        container.textContent = 'Please select a valid mood.';
+        container.className = 'verses animate__animated animate__fadeIn';
         return;
       }
-      const obj = mappings[mood][Math.floor(Math.random()*mappings[mood].length)];
-      ['ar','ur','en'].forEach(lang=>{
+      const obj = mappings[mood][Math.floor(Math.random() * mappings[mood].length)];
+      ['ar', 'ur', 'en'].forEach(lang => {
         const block = document.createElement('div');
-        block.className='verse-block animate__animated animate__fadeInUp';
-        block.setAttribute('data-lang-label',lang==='ar'?'Arabic':lang==='ur'?'Urdu':'English');
+        block.className = 'verse-block animate__animated animate__fadeInUp';
+        block.setAttribute('data-lang-label', lang === 'ar' ? 'Arabic' : lang === 'ur' ? 'Urdu' : 'English');
         const btn = document.createElement('button');
-        btn.className='play-btn';
-        btn.setAttribute('aria-label','Play verse in '+lang);
-        btn.innerHTML='🔊';
-        btn.onclick=()=>{
+        btn.className = 'play-btn';
+        btn.setAttribute('aria-label', 'Play verse in ' + lang);
+        btn.innerHTML = '🔊';
+        btn.onclick = () => {
           const utter = new SpeechSynthesisUtterance(obj[lang]);
-          utter.lang=lang==='ar'?'ar-SA':lang==='ur'?'ur-PK':'en-US';
+          utter.lang = lang === 'ar' ? 'ar-SA' : lang === 'ur' ? 'ur-PK' : 'en-US';
           speechSynthesis.speak(utter);
         };
         const text = document.createElement('div');
-        text.className='verse-text';
-        text.style.fontFamily=lang==='ar'? 'Amiri, serif': lang==='ur'? 'Jomhuria, cursive' : 'Roboto, sans-serif';
-        text.textContent=obj[lang];
+        text.className = 'verse-text';
+        text.style.fontFamily = lang === 'ar' ? 'Amiri, serif' : lang === 'ur' ? 'Jomhuria, cursive' : 'Roboto, sans-serif';
+        text.textContent = obj[lang];
         block.appendChild(btn);
         block.appendChild(text);
         container.appendChild(block);
       });
-      container.style.display='flex';
-      container.className='verses animate__animated animate__fadeIn';
+      container.style.display = 'flex';
+      container.className = 'verses animate__animated animate__fadeIn';
     });
   </script>
 </body>
