@@ -16,106 +16,72 @@
       --select-padding: 0.75rem 2.5rem 0.75rem 0.75rem;
       --arrow-size: 0.75rem;
     }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
     body {
       font-family: Arial, sans-serif;
       font-size: var(--font-base);
       background: linear-gradient(135deg, var(--dark-green), var(--darker-green));
       color: var(--cream);
-      position: relative;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      position: relative; overflow-x: hidden;
+      display: flex; flex-direction: column; align-items: center;
       min-height: 100vh;
     }
-
-    /* Emoji background */
     .emoji-container {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
+      position: absolute; top:0; left:0;
+      width:100%; height:100%; pointer-events:none; overflow:hidden;
+      z-index:0;
     }
     .emoji-container span {
-      position: absolute;
-      bottom: -50px;
+      position: absolute; bottom:-50px;
       animation: floatUp 5s ease-in infinite;
-      font-size: 1rem;
+      font-size:1rem;
     }
-    @media (min-width: 768px) {
-      .emoji-container span {
-        font-size: 2rem;
-      }
+    @media (min-width:768px){
+      .emoji-container span { font-size:2rem; }
     }
     @keyframes floatUp {
       0% { transform: translateY(0) scale(1); opacity:1; }
       100% { transform: translateY(-120vh) scale(1.5); opacity:0; }
     }
-
     header.header {
       width:100%; padding:1rem; text-align:center;
       font-size:2rem; font-weight:700; letter-spacing:0.2rem;
       background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      margin-bottom:2rem;
-      position: relative; z-index: 1;
+      box-shadow:0 4px 12px rgba(0,0,0,0.3); margin-bottom:2rem;
+      position: relative; z-index:1;
     }
     main.container {
-      width: 100%; max-width: 500px;
+      width:100%; max-width:500px;
       background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
       border:1px solid rgba(255,255,255,0.2); border-radius:1rem;
       padding:2rem; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.3);
-      position: relative; z-index: 1;
+      position: relative; z-index:1;
     }
     h1 { margin-bottom:1.5rem; font-size:1.75rem; }
     label { display:block; margin-bottom:0.5rem; font-weight:700; }
-
-    /* Custom select wrapper */
     .select-wrapper {
-      position: relative;
-      width: 100%;
-      margin-bottom: 1rem;
+      position: relative; width:100%; margin-bottom:1rem;
     }
     .select-wrapper select {
-      width: 100%;
-      padding: var(--select-padding);
-      border: none;
-      border-radius: var(--select-radius);
-      font-size: 1rem;
-      background-color: var(--cream);
-      color: var(--dark-green);
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      transition: box-shadow 0.2s;
+      width:100%; padding:var(--select-padding);
+      border:none; border-radius:var(--select-radius);
+      font-size:1rem; background-color:var(--cream);
+      color:var(--dark-green); appearance:none;
+      transition:box-shadow 0.2s;
     }
     .select-wrapper select:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(1, 50, 32, 0.3);
+      outline:none; box-shadow:0 0 0 3px rgba(1,50,32,0.3);
     }
     .select-wrapper::after {
-      content: '▼';
-      position: absolute;
-      top: 50%;
-      right: 1rem;
-      transform: translateY(-50%);
-      pointer-events: none;
-      font-size: var(--arrow-size);
-      color: var(--dark-green);
+      content:'▼'; position:absolute;
+      top:50%; right:1rem; transform:translateY(-50%);
+      pointer-events:none; font-size:var(--arrow-size);
+      color:var(--dark-green);
     }
-
     button#getVerse {
-      background-color: var(--cream); color: var(--dark-green);
+      background-color:var(--cream); color:var(--dark-green);
       border:none; border-radius:0.5rem; padding:0.75rem 2rem;
-      font-size:1rem; cursor:pointer; transition: transform 0.2s;
+      font-size:1rem; cursor:pointer; transition:transform 0.2s;
       margin-bottom:1.5rem;
     }
     button#getVerse:hover { transform:scale(1.05); }
@@ -127,13 +93,11 @@
     .verse-block::before {
       content: attr(data-lang-label);
       position:absolute; top:-0.75rem; left:1rem;
-      background: var(--cream); color: var(--dark-green);
+      background:var(--cream); color:var(--dark-green);
       padding:0.25rem 0.5rem; border-radius:0.5rem;
       font-size:0.875rem; font-weight:700;
     }
-    .verse-text {
-      font-size:1rem; line-height:1.5; margin-top:0.5rem;
-    }
+    .verse-text { font-size:1rem; line-height:1.5; margin-top:0.5rem; }
     .play-btn {
       position:absolute; top:0.75rem; right:1rem;
       background:none; border:none; cursor:pointer; font-size:1.25rem;
@@ -142,7 +106,7 @@
       position:absolute; width:1px; height:1px; padding:0; margin:-1px;
       overflow:hidden; clip:rect(0,0,0,0); border:0;
     }
-    @media (min-width:600px) {
+    @media (min-width:600px){
       h1 { font-size:2rem; }
       .verse-text { font-size:1.125rem; }
     }
@@ -151,10 +115,8 @@
 <body>
   <header class="header">GUIDER</header>
   <div class="emoji-container" id="emojiContainer"></div>
-
   <main class="container" role="main">
     <h1>Discover Your Verse</h1>
-
     <label for="mood">Select Your Mood:</label>
     <div class="select-wrapper">
       <select id="mood" aria-label="Select your mood">
@@ -168,88 +130,101 @@
         <option value="happy">Happy</option>
       </select>
     </div>
-
     <button id="getVerse">Get Verse</button>
     <div class="verses animate__animated" id="versesContainer" aria-live="polite"></div>
   </main>
 
   <script>
     const mappings = {
-      sad: [{ ar: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا', ur: 'بے شک ہر تنگی کے ساتھ آسانی ہے', en: 'Indeed, with hardship [will be] ease.' }],
-      depressed: [{ ar: 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا', ur: 'تو بے شک تنگی کے ساتھ آسانی ہے', en: 'So verily, with the hardship, there is relief.' }],
-      anxious: [{ ar: 'الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ', ur: 'وہ لوگ جو ایمان لائے اور جن کے دل اللہ کے ذکر سے اطمینان پذیر ہوتے ہیں', en: 'Those who have believed and whose hearts are assured by the remembrance of Allah.' }],
-      angry: [{ ar: 'وَلَا يَحْسَبَنَّ الَّذِينَ يُسَارِعُونَ فِي الْكُفْرِ', ur: 'اور جو لوگ کفر میں جلدی کرتے ہیں وہ نہ سمجھیں', en: 'And do not let the hatred of a people prevent you from being just.' }],
-      stressed: [{ ar: 'وَهُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ', ur: 'وہی خدا ہے جس نے آسمانوں اور زمین کو پیدا کیا', en: 'It is He who created the heavens and the earth.' }],
-      hopeful: [{ ar: 'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا', ur: 'اور جو اللہ سے ڈرے گا اللہ اس کے لیے نکالنے کا راستہ نکال دے گا', en: 'And whosoever fears Allah... He will make for him a way out.' }],
-      happy: [{ ar: 'وَبَشِّرِ الْمُؤْمِنِينَ', ur: 'اور مومنوں کو خوشخبری دے دو', en: 'And give glad tidings to the believers.' }]
+      sad:    [{ ar:'إِنَّ مَعَ الْعُسْرِ يُسْرًا', ur:'بے شک ہر تنگی کے ساتھ آسانی ہے', en:'Indeed, with hardship [will be] ease.' }],
+      depressed: [{ ar:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا', ur:'تو بے شک تنگی کے ساتھ آسانی ہے', en:'So verily, with the hardship, there is relief.' }],
+      anxious:[{ ar:'الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ', ur:'وہ لوگ جو ایمان لائے اور جن کے دل اللہ کے ذکر سے اطمینان پذیر ہوتے ہیں', en:'Those who have believed and whose hearts are assured by the remembrance of Allah.' }],
+      angry:  [{ ar:'وَلَا يَحْسَبَنَّ الَّذِينَ يُسَارِعُونَ فِي الْكُفْرِ', ur:'اور جو لوگ کفر میں جلدی کرتے ہیں وہ نہ سمجھیں', en:'And do not let the hatred of a people prevent you from being just.' }],
+      stressed:[{ ar:'وَهُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ', ur:'وہی خدا ہے جس نے آسمانوں اور زمین کو پیدا کیا', en:'It is He who created the heavens and the earth.' }],
+      hopeful:[{ ar:'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا', ur:'اور جو اللہ سے ڈرے گا اللہ اس کے لیے نکالنے کا راستہ نکال دے گا', en:'And whosoever fears Allah... He will make for him a way out.' }],
+      happy:  [{ ar:'وَبَشِّرِ الْمُؤْمِنِينَ', ur:'اور مومنوں کو خوشخبری دے دو', en:'And give glad tidings to the believers.' }]
     };
 
     const moodEmojis = {
-      sad: '😢', depressed: '😞', anxious: '😰',
-      angry: '😡', stressed: '😣', hopeful: '😊', happy: '😃'
+      sad:'😢', depressed:'😞', anxious:'😰',
+      angry:'😡', stressed:'😣', hopeful:'😊', happy:'😃'
     };
 
-    const moodSelect = document.getElementById('mood');
-    const getVerseBtn = document.getElementById('getVerse');
-    const versesContainer = document.getElementById('versesContainer');
-    const emojiContainer = document.getElementById('emojiContainer');
+    let voices = [];
+    function loadVoices() {
+      voices = speechSynthesis.getVoices().filter(v => v.lang);
+    }
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
 
-    function clearEmojis() {
-      emojiContainer.innerHTML = '';
+    function pickVoice(langCode) {
+      // find exact match, then startsWith fallback
+      return voices.find(v => v.lang === langCode)
+        || voices.find(v => v.lang.startsWith(langCode.split('-')[0]))
+        || null;
     }
 
-    function generateEmojis(mood) {
+    const moodSelect      = document.getElementById('mood');
+    const getVerseBtn     = document.getElementById('getVerse');
+    const versesContainer = document.getElementById('versesContainer');
+    const emojiContainer  = document.getElementById('emojiContainer');
+
+    function clearEmojis() { emojiContainer.innerHTML = ''; }
+    function generateEmojis(m) {
       clearEmojis();
-      const emojiChar = moodEmojis[mood] || '🌟';
-      for (let i = 0; i < 15; i++) {
-        const span = document.createElement('span');
-        span.textContent = emojiChar;
-        span.style.left = `${Math.random() * 100}%`;
-        span.style.animationDelay = `${Math.random() * 3}s`;
-        emojiContainer.appendChild(span);
+      const char = moodEmojis[m] || '🌟';
+      for (let i=0; i<15; i++){
+        const s = document.createElement('span');
+        s.textContent = char;
+        s.style.left = `${Math.random()*100}%`;
+        s.style.animationDelay = `${Math.random()*3}s`;
+        emojiContainer.appendChild(s);
       }
     }
 
-    // trigger emojis on mood change
     moodSelect.addEventListener('change', () => {
-      const mood = moodSelect.value;
-      mappings[mood] ? generateEmojis(mood) : clearEmojis();
+      const m = moodSelect.value;
+      mappings[m] ? generateEmojis(m) : clearEmojis();
     });
 
     getVerseBtn.addEventListener('click', () => {
-      const mood = moodSelect.value;
+      const m = moodSelect.value;
       versesContainer.innerHTML = '';
-
-      if (!mood || !mappings[mood]) {
+      if (!m || !mappings[m]) {
         versesContainer.textContent = 'Please select a valid mood.';
-        versesContainer.setAttribute('role', 'alert');
+        versesContainer.setAttribute('role','alert');
         versesContainer.className = 'verses animate__animated animate__fadeIn';
         return;
       }
+      const verse = mappings[m][Math.floor(Math.random()*mappings[m].length)];
 
-      const verse = mappings[mood][Math.floor(Math.random() * mappings[mood].length)];
       ['ar','ur','en'].forEach((lang, idx) => {
         const block = document.createElement('div');
         block.className = 'verse-block animate__animated animate__fadeInUp';
         block.setAttribute('data-lang-label', { ar:'Arabic', ur:'Urdu', en:'English' }[lang]);
-        block.setAttribute('tabindex', '0');
+        block.tabIndex = 0;
 
         const btn = document.createElement('button');
         btn.className = 'play-btn';
         btn.innerHTML = `<span class="sr-only">Play ${lang.toUpperCase()} verse</span>🔊`;
-        btn.onclick = () => {
-          const utt = new SpeechSynthesisUtterance(verse[lang]);
-          utt.lang = lang === 'ar' ? 'ar-SA' : lang === 'ur' ? 'ur-PK' : 'en-US';
-          speechSynthesis.speak(utt);
-        };
+        btn.addEventListener('click', () => {
+          const text = verse[lang];
+          const utter = new SpeechSynthesisUtterance(text);
+          // map to BCP-47 codes
+          const code = lang === 'ar' ? 'ar-SA' : lang === 'ur' ? 'ur' : 'en-US';
+          utter.lang = code;
+          const voice = pickVoice(code);
+          if (voice) utter.voice = voice;
+          speechSynthesis.speak(utter);
+        });
 
-        const text = document.createElement('div');
-        text.className = 'verse-text';
-        text.textContent = verse[lang];
+        const txt = document.createElement('div');
+        txt.className = 'verse-text';
+        txt.textContent = verse[lang];
 
-        block.append(btn, text);
+        block.append(btn, txt);
         versesContainer.appendChild(block);
-        if (idx === 0) block.focus();
+        if (idx===0) block.focus();
       });
 
       versesContainer.style.display = 'flex';
