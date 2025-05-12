@@ -6,143 +6,68 @@
   <title>Guider Mood to Verse</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Jomhuria&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Animate.css (optional for extra animations) -->
+  <!-- Animate.css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
-    :root {
-      --dark-green: #013220;
-      --darker-green: #002110;
-      --cream: #f5f1e8;
-      --font-base: 1rem;
+    :root { --dark-green:#013220; --darker-green:#002110; --cream:#f5f1e8; --font-base:1rem; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      position:relative;
+      font-family:'Roboto',sans-serif;
+      font-size:var(--font-base);
+      background:linear-gradient(135deg,var(--dark-green),var(--darker-green));
+      color:var(--cream);
+      display:flex;flex-direction:column;align-items:center;
+      min-height:100vh;overflow-x:hidden;
     }
-    *, *::before, *::after { box-sizing: border-box; }
-    body {
-      position: relative;
-      font-family: 'Roboto', sans-serif;
-      font-size: var(--font-base);
-      background: linear-gradient(135deg, var(--dark-green), var(--darker-green));
-      color: var(--cream);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+    header.header{
+      width:100%;padding:1rem;text-align:center;font-size:2rem;font-weight:700;letter-spacing:.2rem;
+      background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.3);margin-bottom:2rem;
     }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
+    main.container{
+      width:100%;max-width:500px;
+      background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.2);border-radius:1rem;
+      padding:2rem;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      position:relative;z-index:1;
     }
-    header.header {
-      width: 100%;
-      padding: 1rem;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: 0.2rem;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      margin-bottom: 2rem;
+    h1{margin-bottom:1.5rem;font-size:1.75rem;}
+    label{display:block;margin-bottom:.5rem;font-weight:700;}
+    select{
+      width:100%;padding:.75rem;border:none;border-radius:.5rem;font-size:1rem;margin-bottom:1rem;
     }
-    main.container {
-      width: 100%;
-      max-width: 500px;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 1rem;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 1;
+    button#getVerse{
+      background-color:var(--cream);color:var(--dark-green);
+      border:none;border-radius:.5rem;padding:.75rem 2rem;
+      font-size:1rem;cursor:pointer;transition:transform .2s;margin-bottom:1.5rem;
     }
-    h1 { margin-bottom: 1.5rem; font-size: 1.75rem; }
-    label { display: block; margin-bottom: 0.5rem; font-weight: 700; }
-    select {
-      width: 100%;
-      padding: 0.75rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
+    button#getVerse:hover{transform:scale(1.05);}
+    .verses{display:none;flex-direction:column;gap:1.5rem;}
+    .verse-block{
+      background:rgba(255,255,255,0.05);border-radius:.75rem;padding:1rem;position:relative;outline:none;
     }
-    button#getVerse {
-      background-color: var(--cream);
-      color: var(--dark-green);
-      border: none;
-      border-radius: 0.5rem;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: transform 0.2s;
-      margin-bottom: 1.5rem;
+    .verse-block::before{
+      content:attr(data-lang-label);
+      position:absolute;top:-.75rem;left:1rem;
+      background:var(--cream);color:var(--dark-green);
+      padding:.25rem .5rem;border-radius:.5rem;font-size:.875rem;font-weight:700;
     }
-    button#getVerse:hover { transform: scale(1.05); }
-    .verses { display: none; flex-direction: column; gap: 1.5rem; }
-    .verse-block {
-      background: rgba(255,255,255,0.05);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      position: relative;
-      outline: none;
+    .verse-text{font-size:1rem;line-height:1.5;margin-top:.5rem;}
+    .play-btn{
+      position:absolute;top:.75rem;right:1rem;background:none;
+      border:none;cursor:pointer;font-size:1.25rem;
     }
-    .verse-block::before {
-      content: attr(data-lang-label);
-      position: absolute;
-      top: -0.75rem;
-      left: 1rem;
-      background: var(--cream);
-      color: var(--dark-green);
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      font-weight: 700;
-    }
-    .verse-text {
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-top: 0.5rem;
-    }
-    .play-btn {
-      position: absolute;
-      top: 0.75rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.25rem;
-    }
-    /* Emoji animation container */
-    #emojiContainer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-    .emoji {
-      position: absolute;
-      font-size: 2rem;
-      animation: floatUp 3s ease-out forwards;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
-    }
-    @media (min-width: 600px) {
-      h1 { font-size: 2rem; }
-      .verse-text { font-size: 1.125rem; }
+
+    /* Emoji container */
+    #emojiContainer{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0;}
+    .emoji{position:absolute;font-size:2rem;animation:floatUp 3s ease-out forwards;}
+    @keyframes floatUp{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-200px) scale(1.5);opacity:0;}}
+
+    @media(min-width:600px){
+      h1{font-size:2rem;}
+      .verse-text{font-size:1.125rem;}
     }
   </style>
 </head>
@@ -165,88 +90,107 @@
     <div class="verses animate__animated" id="versesContainer" aria-live="polite"></div>
   </main>
   <div id="emojiContainer"></div>
+
   <script>
+    // 1) Verse data
     const mappings = {
-      sad: [{ ar: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا', ur: 'بے شک ہر تنگی کے ساتھ آسانی ہے', en: 'Indeed, with hardship [will be] ease.' }],
-      depressed: [{ ar: 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا', ur: 'تو بے شک تنگی کے ساتھ آسانی ہے', en: 'So verily, with the hardship, there is relief.' }],
-      anxious: [{ ar: 'الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ', ur: 'وہ لوگ جو ایمان لائے اور جن کے دل اللہ کے ذکر سے اطمینان پذیر ہوتے ہیں', en: 'Those who have believed and whose hearts are assured by the remembrance of Allah.' }],
-      angry: [{ ar: 'وَلَا يَحْسَبَنَّ الَّذِينَ يُسَارِعُونَ فِي الْكُفْرِ', ur: 'اور جو لوگ کفر میں جلدی کرتے ہیں وہ نہ سمجھیں', en: 'And do not let the hatred of a people prevent you from being just.' }],
-      stressed: [{ ar: 'وَهُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ', ur: 'وہی خدا ہے جس نے آسمانوں اور زمین کو پیدا کیا', en: 'It is He who created the heavens and the earth.' }],
-      hopeful: [{ ar: 'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا', ur: 'اور جو اللہ سے ڈرے گا اللہ اس کے لیے نکالنے کا راستہ نکال دےگا', en: 'And whosoever fears Allah... He will make for him a way out.' }],
-      happy: [{ ar: 'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ', ur: 'اور جو اللہ پر بھروسہ کرے، اللہ اس کے لئے کافی ہے', en: 'And whoever relies upon Allah – then He is sufficient for him.' }]
+      sad:       [{ ar:'إِنَّ مَعَ الْعُسْرِ يُسْرًا', ur:'بے شک ہر تنگی کے ساتھ آسانی ہے', en:'Indeed, with hardship [will be] ease.' }],
+      depressed: [{ ar:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا', ur:'تو بے شک تنگی کے ساتھ آسانی ہے', en:'So verily, with the hardship, there is relief.' }],
+      anxious:   [{ ar:'الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ', ur:'وہ لوگ جو ایمان لائے اور جن کے دل اللہ کے ذکر سے اطمینان پذیر ہوتے ہیں', en:'Those who have believed and whose hearts are assured by the remembrance of Allah.' }],
+      angry:     [{ ar:'وَلَا يَحْسَبَنَّ الَّذِينَ يُسَارِعُونَ فِي الْكُفْرِ', ur:'اور جو لوگ کفر میں جلدی کرتے ہیں وہ نہ سمجھیں', en:'And do not let the hatred of a people prevent you from being just.' }],
+      stressed:  [{ ar:'وَهُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ', ur:'وہی خدا ہے جس نے آسمانوں اور زمین کو پیدا کیا', en:'It is He who created the heavens and the earth.' }],
+      hopeful:   [{ ar:'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا', ur:'اور جو اللہ سے ڈرے گا اللہ اس کے لیے نکالنے کا راستہ نکال دےگا', en:'And whosoever fears Allah... He will make for him a way out.' }],
+      happy:     [{ ar:'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ', ur:'اور جو اللہ پر بھروسہ کرے، اللہ اس کے لئے کافی ہے', en:'And whoever relies upon Allah – then He is sufficient for him.' }]
     };
-    const moodEmojis = {
-      sad: '😢', depressed: '😞', anxious: '😟', angry: '😠', stressed: '😫', hopeful: '😊', happy: '😃'
-    };
-    const getVerseBtn = document.getElementById('getVerse');
-    const container = document.getElementById('versesContainer');
+
+    // 2) Emoji data & helper
+    const moodEmojis = { sad:'😢', depressed:'😞', anxious:'😟', angry:'😠', stressed:'😫', hopeful:'😊', happy:'😃' };
     const emojiContainer = document.getElementById('emojiContainer');
-
-    function clearEmojis() {
-      emojiContainer.innerHTML = '';
-    }
-
-    function generateEmojis(mood) {
+    function clearEmojis(){ emojiContainer.innerHTML = ''; }
+    function generateEmojis(mood){
       clearEmojis();
-      const emojiChar = moodEmojis[mood] || '✨';
-      for (let i = 0; i < 10; i++) {
+      const char = moodEmojis[mood]||'✨';
+      for(let i=0;i<10;i++){
         const span = document.createElement('span');
         span.className = 'emoji';
-        span.textContent = emojiChar;
-        span.style.left = Math.random() * 100 + '%';
-        span.style.top = '80%';
-        span.style.animationDelay = (Math.random() * 0.5) + 's';
+        span.textContent = char;
+        span.style.left = Math.random()*100 + '%';
+        span.style.animationDelay = Math.random()*0.5 + 's';
         emojiContainer.appendChild(span);
-        // remove after animation
-        setTimeout(() => span.remove(), 3000);
+        setTimeout(()=>span.remove(),3000);
       }
     }
 
-    getVerseBtn.addEventListener('click', () => {
-      const mood = document.getElementById('mood').value;
+    // 3) Voice loading & picker
+    let voices = [];
+    function loadVoices(){
+      voices = speechSynthesis.getVoices();
+    }
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+
+    function pickVoice(langCode){
+      // try exact, then startsWith
+      return voices.find(v=>v.lang===langCode)
+          || voices.find(v=>v.lang.startsWith(langCode.split('-')[0]))
+          || null;
+    }
+
+    // 4) Main logic
+    const getVerseBtn = document.getElementById('getVerse');
+    const container    = document.getElementById('versesContainer');
+    const moodSelect   = document.getElementById('mood');
+
+    getVerseBtn.addEventListener('click',()=>{
+      const mood = moodSelect.value;
       container.innerHTML = '';
       clearEmojis();
 
-      if (!mood || !mappings[mood]) {
+      if(!mood || !mappings[mood]){
         container.textContent = 'Please select a valid mood.';
         container.className = 'verses animate__animated animate__fadeIn';
         return;
       }
 
+      // animate emojis
       generateEmojis(mood);
 
-      const obj = mappings[mood][Math.floor(Math.random() * mappings[mood].length)];
-      ['ar', 'ur', 'en'].forEach(lang => {
+      // pick a verse and render blocks
+      const verse = mappings[mood][Math.floor(Math.random()*mappings[mood].length)];
+      ['ar','ur','en'].forEach((lang, idx)=>{
         const block = document.createElement('div');
         block.className = 'verse-block animate__animated animate__fadeInUp';
-        block.setAttribute('data-lang-label', lang === 'ar' ? 'Arabic' : lang === 'ur' ? 'Urdu' : 'English');
-        block.setAttribute('tabindex', '0');
+        block.setAttribute('data-lang-label',
+          lang==='ar'?'Arabic':lang==='ur'?'Urdu':'English'
+        );
+        block.tabIndex = 0;
 
         const btn = document.createElement('button');
         btn.className = 'play-btn';
-        btn.setAttribute('aria-label', 'Play verse in ' + lang);
-        btn.innerHTML = '<span class="sr-only">Play ' + (lang === 'ar' ? 'Arabic' : lang === 'ur' ? 'Urdu' : 'English') + ' verse</span>🔊';
-        btn.onclick = () => {
-          const utter = new SpeechSynthesisUtterance(obj[lang]);
-          utter.lang = lang === 'ar' ? 'ar-SA' : lang === 'ur' ? 'ur-PK' : 'en-US';
+        btn.innerHTML = `<span class="sr-only">Play ${lang==='ar'?'Arabic':lang==='ur'?'Urdu':'English'} verse</span>🔊`;
+        btn.addEventListener('click',()=>{
+          const text = verse[lang];
+          const utter = new SpeechSynthesisUtterance(text);
+          // BCP-47 codes
+          const code = lang==='ar'?'ar-SA':lang==='ur'?'ur':'en-US';
+          utter.lang = code;
+          const voice = pickVoice(code);
+          if(voice) utter.voice = voice;
           speechSynthesis.speak(utter);
-        };
+        });
 
-        const text = document.createElement('div');
-        text.className = 'verse-text';
-        text.style.fontFamily = lang === 'ar' ? 'Amiri, serif' : lang === 'ur' ? 'Jomhuria, cursive' : 'Roboto, sans-serif';
-        text.textContent = obj[lang];
+        const txt = document.createElement('div');
+        txt.className = 'verse-text';
+        txt.style.fontFamily = lang==='ar'?'Amiri, serif':lang==='ur'?'Jomhuria, cursive':'Roboto, sans-serif';
+        txt.textContent = verse[lang];
 
-        block.appendChild(btn);
-        block.appendChild(text);
+        block.append(btn, txt);
         container.appendChild(block);
+        if(idx===0) block.focus();
       });
 
       container.style.display = 'flex';
       container.className = 'verses animate__animated animate__fadeIn';
-      // focus first verse for screen readers
-      const first = container.querySelector('.verse-block');
-      if (first) first.focus();
     });
   </script>
 </body>
