@@ -3,274 +3,228 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qaider Mood to Verse</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Scheherazade&family=Great+Vibes&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Guider Mood to Verse</title>
   <!-- Animate.css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
       --dark-green: #013220;
+      --darker-green: #002110;
       --cream: #f5f1e8;
       --font-base: 1rem;
     }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      font-family: 'Scheherazade', serif;
+      font-family: Arial, sans-serif;
       font-size: var(--font-base);
+      background: linear-gradient(135deg, var(--dark-green), var(--darker-green));
       color: var(--cream);
-      background-color: var(--dark-green);
+      position: relative;
       overflow-x: hidden;
-    }
-    /* Splash Screen */
-    .splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      background-color: var(--dark-green);
-      z-index: 100;
+      min-height: 100vh;
     }
-    .splash h1 {
-      font-size: 4rem;
-      color: var(--cream);
-      white-space: nowrap;
-      opacity: 0;
-      animation: fadeInText 0.5s ease-in-out forwards;
+
+    /* Emoji background */
+    .emoji-container {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
     }
-    @keyframes fadeInText {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
+    .emoji-container span {
+      position: absolute;
+      bottom: -50px;
+      animation: floatUp 5s ease-in infinite;
+      /* base size for mobile */
+      font-size: 1rem;
     }
-    @media (max-width: 600px) {
-      .splash h1 {
+    @media (min-width: 768px) {
+      .emoji-container span {
+        /* larger on tablets/laptops */
         font-size: 2rem;
       }
     }
-    /* Main Content */
-    .main-content {
-      display: none;
-      position: relative;
-      min-height: 100vh;
-      background-color: var(--dark-green);
-      padding-top: 4rem;
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity:1; }
+      100% { transform: translateY(-120vh) scale(1.5); opacity:0; }
     }
+
     header.header {
-      width: 100%;
-      padding: 1rem;
-      text-align: center;
-      font-size: 2.5rem;
-      font-family: 'Scheherazade', serif;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(8px);
-      color: var(--cream);
-      position: fixed;
-      top: 0;
-      z-index: 10;
+      width:100%; padding:1rem; text-align:center;
+      font-size:2rem; font-weight:700; letter-spacing:0.2rem;
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      margin-bottom:2rem;
+      position: relative; z-index: 1;
     }
-    .container {
-      width: calc(100% - 44px);
-      max-width: 500px;
-      margin: 22px auto;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 1rem;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    main.container {
+      width: 100%; max-width: 500px;
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,0.2); border-radius:1rem;
+      padding:2rem; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      position: relative; z-index: 1;
     }
-    .container h1 {
-      margin-bottom: 1.5rem;
-      font-size: 1.75rem;
-      font-family: 'Great Vibes', cursive;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
+    h1 { margin-bottom:1.5rem; font-size:1.75rem; }
+    label { display:block; margin-bottom:0.5rem; font-weight:700; }
     select {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid var(--cream);
-      border-radius: 2rem;
-      background: rgba(255,255,255,0.2);
-      font-size: 1rem;
-      font-family: 'Great Vibes', cursive;
-      color: var(--dark-green);
-      margin-bottom: 1rem;
-      appearance: none;
-      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBvbHlsaW5lIHBvaW50cz0iMCwwIDYsOCAxMiwwIiBzdHJva2U9IiMwMTMyMjAiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==");
-      background-repeat: no-repeat;
-      background-position: right 1rem center;
+      width:100%; padding:0.75rem; border:none; border-radius:0.5rem;
+      font-size:1rem; margin-bottom:1rem;
     }
     button#getVerse {
-      background-color: var(--cream);
-      color: var(--dark-green);
-      border: none;
-      border-radius: 0.5rem;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: transform 0.2s;
-      margin: 1rem auto 0;
-      display: block;
-      font-family: 'Scheherazade', serif;
+      background-color: var(--cream); color: var(--dark-green);
+      border:none; border-radius:0.5rem; padding:0.75rem 2rem;
+      font-size:1rem; cursor:pointer; transition: transform 0.2s;
+      margin-bottom:1.5rem;
     }
-    button#getVerse:hover {
-      transform: scale(1.05);
-    }
-    .verses {
-      display: none;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
+    button#getVerse:hover { transform:scale(1.05); }
+    .verses { display:none; flex-direction:column; gap:1.5rem; }
     .verse-block {
-      background: rgba(0,0,0,0.3);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      position: relative;
+      background: rgba(255,255,255,0.05); border-radius:0.75rem;
+      padding:1rem; position: relative;
     }
     .verse-block::before {
       content: attr(data-lang-label);
-      position: absolute;
-      top: -0.75rem;
-      left: 1rem;
-      background: var(--cream);
-      color: var(--dark-green);
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      font-weight: 700;
+      position:absolute; top:-0.75rem; left:1rem;
+      background: var(--cream); color: var(--dark-green);
+      padding:0.25rem 0.5rem; border-radius:0.5rem;
+      font-size:0.875rem; font-weight:700;
     }
     .verse-text {
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-top: 0.5rem;
-      font-family: 'Amiri', serif;
+      font-size:1rem; line-height:1.5; margin-top:0.5rem;
     }
     .play-btn {
-      position: absolute;
-      top: 0.5rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.25rem;
-      color: var(--cream);
+      position:absolute; top:0.75rem; right:1rem;
+      background:none; border:none; cursor:pointer; font-size:1.25rem;
     }
-    /* Floating Icons */
-    .icon {
-      position: absolute;
-      color: var(--cream);
-      opacity: 0.7;
-      font-size: 1.5rem;
-      animation: floatAnim 6s ease-in-out infinite;
+    .sr-only {
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); border:0;
     }
-    @keyframes floatAnim {
-      0% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(-20px) translateX(10px); }
-      100% { transform: translateY(0) translateX(0); }
+    @media (min-width:600px) {
+      h1 { font-size:2rem; }
+      .verse-text { font-size:1.125rem; }
     }
   </style>
 </head>
 <body>
-  <!-- Splash Page -->
-  <div class="splash">
-    <h1 id="splashText"></h1>
-  </div>
-  <!-- Main UI -->
-  <div class="main-content">
-    <header class="header">QAIDER</header>
-    <!-- Floating Icons -->
-    <i class="fas fa-moon icon" style="left: 10%; top: 20%; animation-delay: 0s;"></i>
-    <i class="fas fa-star icon" style="left: 80%; top: 30%; animation-delay: 2s;"></i>
-    <i class="fas fa-mosque icon" style="left: 50%; top: 10%; animation-delay: 4s;"></i>
-    <i class="fas fa-star icon" style="left: 20%; top: 60%; animation-delay: 1s;"></i>
-    <i class="fas fa-moon icon" style="left: 70%; top: 70%; animation-delay: 3s;"></i>
-    <div class="container" role="main">
-      <h1>Discover Your Verse</h1>
-      <label for="mood">Select Your Mood:</label>
-      <select id="mood" aria-label="Select your mood">
-        <option value="">--Choose Mood--</option>
-        <option value="sad">Sad</option>
-        <option value="depressed">Depressed</option>
-        <option value="anxious">Anxious</option>
-        <option value="angry">Angry</option>
-        <option value="stressed">Stressed</option>
-        <option value="hopeful">Hopeful</option>
-      </select>
-      <button id="getVerse">Get Verse</button>
-      <div class="verses animate__animated" id="versesContainer" aria-live="polite"></div>
-    </div>
-  </div>
+  <header class="header">GUIDER</header>
+  <div class="emoji-container" id="emojiContainer"></div>
+
+  <main class="container" role="main">
+    <h1>Discover Your Verse</h1>
+    <label for="mood">Select Your Mood:</label>
+    <select id="mood" aria-label="Select your mood">
+      <option value="" disabled selected hidden>Choose your mood</option>
+      <option value="sad">Sad</option>
+      <option value="depressed">Depressed</option>
+      <option value="anxious">Anxious</option>
+      <option value="angry">Angry</option>
+      <option value="stressed">Stressed</option>
+      <option value="hopeful">Hopeful</option>
+      <option value="happy">Happy</option>
+    </select>
+    <button id="getVerse">Get Verse</button>
+    <div class="verses animate__animated" id="versesContainer" aria-live="polite"></div>
+  </main>
+
   <script>
-    // Type Bismillah word by word
-    const splashWords = ['بِسْمِ', 'اللهِ', 'الرَّحْمٰنِ', 'الرَّحِيْمِ'];
-    const splashEl = document.getElementById('splashText');
-    let splashIndex = 0;
-    function typeSplash() {
-      if (splashIndex < splashWords.length) {
-        splashEl.textContent += (splashIndex > 0 ? ' ' : '') + splashWords[splashIndex];
-        splashEl.style.opacity = 1;
-        splashIndex++;
-        setTimeout(typeSplash, 500);
+    const mappings = {
+      sad: [{ ar: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا', ur: 'بے شک ہر تنگی کے ساتھ آسانی ہے', en: 'Indeed, with hardship [will be] ease.' }],
+      depressed: [{ ar: 'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا', ur: 'تو بے شک تنگی کے ساتھ آسانی ہے', en: 'So verily, with the hardship, there is relief.' }],
+      anxious: [{ ar: 'الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ', ur: 'وہ لوگ جو ایمان لائے اور جن کے دل اللہ کے ذکر سے اطمینان پذیر ہوتے ہیں', en: 'Those who have believed and whose hearts are assured by the remembrance of Allah.' }],
+      angry: [{ ar: 'وَلَا يَحْسَبَنَّ الَّذِينَ يُسَارِعُونَ فِي الْكُفْرِ', ur: 'اور جو لوگ کفر میں جلدی کرتے ہیں وہ نہ سمجھیں', en: 'And do not let the hatred of a people prevent you from being just.' }],
+      stressed: [{ ar: 'وَهُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ', ur: 'وہی خدا ہے جس نے آسمانوں اور زمین کو پیدا کیا', en: 'It is He who created the heavens and the earth.' }],
+      hopeful: [{ ar: 'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا', ur: 'اور جو اللہ سے ڈرے گا اللہ اس کے لیے نکالنے کا راستہ نکال دے گا', en: 'And whosoever fears Allah... He will make for him a way out.' }],
+      happy: [{ ar: 'وَبَشِّرِ الْمُؤْمِنِينَ', ur: 'اور مومنوں کو خوشخبری دے دو', en: 'And give glad tidings to the believers.' }]
+    };
+
+    const moodEmojis = {
+      sad: '😢',
+      depressed: '😞',
+      anxious: '😰',
+      angry: '😡',
+      stressed: '😣',
+      hopeful: '😊',
+      happy: '😃'
+    };
+
+    const moodSelect = document.getElementById('mood');
+    const getVerseBtn = document.getElementById('getVerse');
+    const versesContainer = document.getElementById('versesContainer');
+    const emojiContainer = document.getElementById('emojiContainer');
+
+    function clearEmojis() {
+      emojiContainer.innerHTML = '';
+    }
+
+    function generateEmojis(mood) {
+      clearEmojis();
+      const emojiChar = moodEmojis[mood] || '🌟';
+      for (let i = 0; i < 15; i++) {
+        const span = document.createElement('span');
+        span.textContent = emojiChar;
+        span.style.left = `${Math.random() * 100}%`;
+        span.style.animationDelay = `${Math.random() * 3}s`;
+        emojiContainer.appendChild(span);
       }
     }
-    window.addEventListener('load', () => {
-      typeSplash();
-      const totalTime = splashWords.length * 500 + 1000;
-      setTimeout(() => {
-        document.querySelector('.splash').style.display = 'none';
-        document.querySelector('.main-content').style.display = 'block';
-      }, totalTime);
+
+    // trigger emojis immediately on mood selection
+    moodSelect.addEventListener('change', () => {
+      const mood = moodSelect.value;
+      if (mappings[mood]) {
+        generateEmojis(mood);
+      } else {
+        clearEmojis();
+      }
     });
-    // Verse & Speech
-    const mappings = {
-      sad: [{ar:'إِنَّ مَعَ الْعُسْرِ يُسْرًا',ur:'بے شک ہر تنگی کے ساتھ آسانی ہے',en:'Indeed, with hardship [will be] ease.'}],
-      depressed: [{ar:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا',ur:'تو بے شک تنگی کے ساتھ آسانی ہے',en:'So verily, with the hardship, there is relief.'}],
-      anxious: [{ar:'الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ',ur:'وہ لوگ جو ایمان لائے اور جن کے دل اللہ کے ذکر سے اطمینان پذیر ہوتے ہیں',en:'Those who have believed and whose hearts are assured by the remembrance of Allah.'}],
-      angry: [{ar:'وَلَا يَحْسَبَنَّ الَّذِينَ يُسَارِعُونَ فِي الْكُفْرِ',ur:'اور جو لوگ کفر میں جلدی کرتے ہیں وہ نہ سمجھیں',en:'And do not let the hatred of a people prevent you from being just.'}],
-      stressed: [{ar:'وَهُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ',ur:'وہی خدا ہے جس نے آسمانوں اور زمین کو پیدا کیا',en:'It is He who created the heavens and the earth.'}],
-      hopeful: [{ar:'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا',ur:'اور جو اللہ سے ڈرے گا اللہ اس کے لیے نکالنے کا راستہ نکال دےگا',en:'And whosoever fears Allah... He will make for him a way out.'}]
-    };
-    const getVerseBtn = document.getElementById('getVerse');
-    const container = document.getElementById('versesContainer');
+
     getVerseBtn.addEventListener('click', () => {
-      container.innerHTML = ''; const mood = document.getElementById('mood').value;
+      const mood = moodSelect.value;
+      versesContainer.innerHTML = '';
+
       if (!mood || !mappings[mood]) {
-        container.textContent = 'Please select a valid mood.';
-        container.className = 'verses animate__animated animate__fadeIn';
+        versesContainer.textContent = 'Please select a valid mood.';
+        versesContainer.setAttribute('role', 'alert');
+        versesContainer.className = 'verses animate__animated animate__fadeIn';
         return;
       }
-      const obj = mappings[mood][Math.floor(Math.random() * mappings[mood].length)];
-      ['ar','ur','en'].forEach(lang => {
+
+      const verse = mappings[mood][Math.floor(Math.random() * mappings[mood].length)];
+      ['ar','ur','en'].forEach((lang, idx) => {
         const block = document.createElement('div');
         block.className = 'verse-block animate__animated animate__fadeInUp';
-        block.setAttribute('data-lang-label', lang==='ar'?'Arabic':lang==='ur'?'Urdu':'English');
-        const btn = document.createElement('button'); btn.className='play-btn';
-        btn.setAttribute('aria-label','Play verse in '+lang); btn.innerHTML='🔊';
-        btn.onclick = ()=>{ const utter=new SpeechSynthesisUtterance(obj[lang]);
-          utter.lang=lang==='ar'?'ar-SA':lang==='ur'?'ur-PK':'en-US'; speechSynthesis.speak(utter);
+        block.setAttribute('data-lang-label', lang === 'ar' ? 'Arabic' : lang === 'ur' ? 'Urdu' : 'English');
+        block.setAttribute('tabindex', '0');
+
+        const btn = document.createElement('button');
+        btn.className = 'play-btn';
+        btn.innerHTML = `<span class="sr-only">Play ${lang.toUpperCase()} verse</span>🔊`;
+        btn.onclick = () => {
+          const utt = new SpeechSynthesisUtterance(verse[lang]);
+          utt.lang = lang === 'ar' ? 'ar-SA' : lang === 'ur' ? 'ur-PK' : 'en-US';
+          speechSynthesis.speak(utt);
         };
-        const text=document.createElement('div'); text.className='verse-text';
-        text.textContent=obj[lang]; text.style.fontFamily=lang==='ar'?'Amiri, serif':lang==='ur'?'Jomhuria, cursive':'Roboto, sans-serif';
-        block.appendChild(btn); block.appendChild(text); container.appendChild(block);
+
+        const text = document.createElement('div');
+        text.className = 'verse-text';
+        text.textContent = verse[lang];
+
+        block.appendChild(btn);
+        block.appendChild(text);
+        versesContainer.appendChild(block);
+
+        if (idx === 0) block.focus();
       });
-      container.style.display='flex'; container.className='verses animate__animated animate__fadeIn';
+
+      versesContainer.style.display = 'flex';
+      versesContainer.className = 'verses animate__animated animate__fadeIn';
     });
   </script>
 </body>
